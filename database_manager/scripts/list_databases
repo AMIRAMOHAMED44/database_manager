@@ -1,0 +1,8 @@
+#!/bin/bash
+DB_DIR="./databases"
+
+function list_databases() {
+    echo "Available Databases:"
+    ls "$DB_DIR"
+}
+

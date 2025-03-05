@@ -1,0 +1,32 @@
+#!/bin/bash
+
+function delete_data() {
+    if [ ! -f .current_db ]; then
+        echo "No database selected! Use option 2 to connect to a database."
+        return
+    fi
+
+    CURRENT_DB=$(cat .current_db)
+    db_path="$DB_DIR/$CURRENT_DB"
+
+    echo -n "Enter table name: "
+    read table_name
+    table_path="$db_path/$table_name.csv"
+
+    if [ ! -f "$table_path" ]; then
+        echo "Table '$table_name' does not exist!"
+        return
+    fi
+
+    echo -n "Enter row number to delete (starting from 2): "
+    read row_num
+
+    if [ "$row_num" -lt 2 ]; then
+        echo "Invalid row number!"
+        return
+    fi
+
+    sed -i "${row_num}d" "$table_path"
+    echo "Row $row_num deleted successfully from '$table_name'."
+}
+

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+function update_data() {
+    if [ ! -f .current_db ]; then
+        echo "No database selected! Use option 2 to connect to a database."
+        return
+    fi
+
+    CURRENT_DB=$(cat .current_db)
+    db_path="$DB_DIR/$CURRENT_DB"
+
+    echo -n "Enter table name: "
+    read table_name
+    table_path="$db_path/$table_name.csv"
+
+    if [ ! -f "$table_path" ]; then
+        echo "Table '$table_name' does not exist!"
+        return
+    fi
+
+    echo -n "Enter row number to update (starting from 2): "
+    read row_num
+
+    if [ "$row_num" -lt 2 ]; then
+        echo "Invalid row number!"
+        return
+    fi
+
+    echo -n "Enter new values (comma-separated): "
+    read new_values
+
+    sed -i "${row_num}s/.*/$new_values/" "$table_path"
+    echo "Row $row_num updated successfully in '$table_name'."
+}
+

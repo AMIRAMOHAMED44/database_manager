@@ -1,0 +1,23 @@
+#!/bin/bash
+
+function delete_table() {
+    if [ ! -f .current_db ]; then
+        echo "No database selected! Use option 2 to connect to a database."
+        return
+    fi
+
+    CURRENT_DB=$(cat .current_db)
+    db_path="$DB_DIR/$CURRENT_DB"
+
+    echo -n "Enter table name to delete: "
+    read table_name
+    table_path="$db_path/$table_name.csv"
+
+    if [ -f "$table_path" ]; then
+        rm "$table_path"
+        echo "Table '$table_name' deleted successfully."
+    else
+        echo "Table '$table_name' does not exist!"
+    fi
+}
+

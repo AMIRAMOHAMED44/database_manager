@@ -1,0 +1,26 @@
+#!/bin/bash
+
+function view_table() {
+    if [ ! -f .current_db ]; then
+        echo "No database selected! Use option 2 to connect to a database."
+        return
+    fi
+
+    CURRENT_DB=$(cat .current_db)
+    db_path="$DB_DIR/$CURRENT_DB"
+
+    echo -n "Enter table name: "
+    read table_name
+    table_path="$db_path/$table_name.csv"
+
+    if [ ! -f "$table_path" ]; then
+        echo "Table '$table_name' does not exist!"
+        return
+    fi
+
+    column_names=$(head -n 1 "$table_path")
+    echo "Columns: $column_names"
+    echo "-----------------------------------"
+    tail -n +2 "$table_path"
+}
+

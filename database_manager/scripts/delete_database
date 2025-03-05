@@ -1,0 +1,15 @@
+#!/bin/bash
+DB_DIR="./databases"
+
+function delete_database() {
+    echo -n "Enter database name to delete: "
+    read db_name
+    db_path="$DB_DIR/$db_name"
+    if [ -d "$db_path" ]; then
+        rm -rf "$db_path"
+        echo "Database '$db_name' deleted successfully."
+    else
+        echo "Database '$db_name' does not exist!"
+    fi
+}
+
